@@ -1,6 +1,13 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+  font-size: 16px;
+}
+
+:root{
+  --cor1: #e3e3e3;
+  --cor2: #969696;
+  --cor3: #4d4d4d;
 }

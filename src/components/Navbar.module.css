@@ -1,0 +1,103 @@
+.nav{
+    width: 20%;
+    height: 100vh;
+    padding: 0 10px;
+    background-color: var(--cor2);
+}
+.menuNomeUsuario{
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+}
+.perfilUsuario{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 150px;
+}
+.msgSaudacao, .boxNomeUsuario{
+    display: flex;
+    width: 100%;
+    height: 30px;
+    align-items: center;
+}
+.perfilUsuario img{
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: white;
+}
+.menuNomeUsuario h1{
+    width: auto;
+    padding-right: 10px;
+}
+.iconeSaudacao{
+    width: 30px;
+    height: 30px;
+    background-color: white;
+}
+.menuNomeUsuario h2{
+    width: 100%;
+}
+ul{
+    display: flex;
+    width: 100%;
+    border: 2px solid rgb(255, 238, 0);
+}
+
+
+
+
+
+
+
+
+
+.logotipo{
+    display: flex;
+    width: 100%;
+    height: 200px;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid red;
+}
+
+.logotipo img{
+    height: 64px;
+}
+
+
+
+li{
+    text-align: center;
+    list-style: none;
+    width: 200px;
+    text-decoration: none;
+}
+
+li a{
+    color: var(--color-white);
+    font-size: 20px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    text-decoration: none;
+    padding-bottom: 3px;
+}
+
+li a:hover{
+    color: var(--cor1);
+    border-bottom: 2px solid var(--cor2);
+}
+
+.menuMobile{
+    display: flex;
+    width: 60px;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    display: none;
+}
+.menuMobile img{
+    width: 4%;
+}

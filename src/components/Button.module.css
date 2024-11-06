@@ -1,0 +1,74 @@
+.button{
+    position: relative;
+    overflow: hidden;
+    width: 180px;
+    height: 40px;
+    border-radius: 16px;
+    border: none;
+    background-color: var(--color-primaria);
+    z-index: 10;
+    cursor: pointer;
+    transition: box-shadow 1s ease;
+}
+
+.button:hover{
+    box-shadow: 2px 2px 4px rgb(112, 76, 76);
+    transition: box-shadow 0.3s ease;
+}
+
+.button::before{
+    content: '';
+    position: absolute;
+    left: 2px;
+    top: 2px;
+    border-radius: 16px;
+    height: calc(100% - 4px);
+    width: calc(100% - 4px);
+    background-color: var(--color-primaria);
+    z-index: -2;
+}
+
+.button::after{
+    content: '';
+    position: absolute;
+    left: -180px;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    background-image: linear-gradient(to left, #00000000, #00000000, #ffffff, #00000000, #00000000);
+    z-index: -4;
+    transition: left 1.5s ease;
+}
+
+.button:hover:after{
+    left: 180px;
+}
+
+.button a{
+    position: relative;
+    display: block;
+    height: 40px;
+    width: 100%;
+    align-content: center;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    transition: transform ease 1s;
+}
+
+.button a:hover {
+    transform: translateY(-40px);
+}
+
+.button a::after{
+    content: 'EU QUERO!';
+    position: absolute;
+    text-align: center;
+    align-content: center;
+    transition: transform ease 1s opacity ease 0.5s;
+    height: 100%;
+    width: 100%;
+    left: 0;
+    bottom: -100%;
+}
