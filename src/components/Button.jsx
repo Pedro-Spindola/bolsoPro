@@ -1,10 +1,18 @@
+import PropTypes from 'prop-types';
 import React from 'react'
 import styles from './Button.module.css'
 
-function Button() {
+function Button({text, icon, className}) {
+  const buttonClasses = `${className || styles.button}`;
   return (
-    <button className={styles.button}><a href="">EU QUERO!</a></button>
+    <button className={buttonClasses}><img src={icon} alt="" /><a href="">{text}</a></button>
   )
 }
+
+Button.propTypes = {
+  text: PropTypes.string.isRequired,
+  className: PropTypes.string,
+  icon: PropTypes.img,
+};
 
 export default Button

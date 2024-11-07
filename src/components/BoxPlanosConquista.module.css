@@ -1,0 +1,20 @@
+.container{
+    display: flex;
+    flex-wrap: wrap;
+    width: 300px;
+    height: 100%;
+    padding: 20px 10px;
+    background-color: rebeccapurple;
+}
+
+.container img{
+    width: 40px;
+    height: 40px;
+    margin: 10px;
+    background-color: rgb(255, 145, 0);
+}
+.infPlano{
+    width: calc(100% - 60px);
+    height: 60px;
+    background-color: antiquewhite;
+}
