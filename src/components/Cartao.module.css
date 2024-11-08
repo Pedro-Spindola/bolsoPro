@@ -58,6 +58,7 @@
     font-weight: 400;
     letter-spacing: 1px;
     width: 30%;
+    text-align: end;
 }
 .chip{
     width: 32px;

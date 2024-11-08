@@ -1,20 +1,96 @@
 .container{
     display: flex;
     flex-wrap: wrap;
-    width: 300px;
-    height: 100%;
-    padding: 20px 10px;
-    background-color: rebeccapurple;
+    width: 280px;
+    height: 140px;
+    padding: 10px 10px;
+    border-radius: 10px;
+    background-color: var(--cor2);
 }
-
 .container img{
     width: 40px;
     height: 40px;
-    margin: 10px;
-    background-color: rgb(255, 145, 0);
+    margin: 10px 5px;
+    border-radius: 10px;
+    padding: 6px;
+    background-color: var(--cor2);
+    box-shadow: inset 1px 1px 2px var(--cor1), 2px 2px 4px var(--cor5);
 }
 .infPlano{
-    width: calc(100% - 60px);
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    width: calc(100% - 50px);
     height: 60px;
-    background-color: antiquewhite;
+    padding-left: 10px;
+}
+.infPlano h1{
+    width: 100%;
+    font-size: 18px;
+    font-weight: 500;
+    max-height: 20px;
+    margin-bottom: 4px;
+    color: var(--cor6);
+}
+.infPlano h2, .infPlano h3{
+    font-size: 12px;
+    font-weight: 300;
+    align-content: center;
+    max-height: 30px;
+    color: var(--cor5);
+}
+.infPlano h2{
+    padding-left: 10px;
+    font-weight: 400;
+}
+.progresso{
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    width: 100%;
+    height: 60px;
+}
+.progresso h2{
+    font-size: 12px;
+    font-weight: 500;
+    align-content: end;
+    width: 50%;
+    height: 30px;
+    margin-bottom: 4px;
+    padding: 0 10px;
+    color: var(--cor6);
+}
+.progresso h2:nth-of-type(2){
+    text-align: end;
+    color: var(--cor5);
+}
+.barProgresso{
+    position: relative;
+    width: 100%;
+    height: 14px;
+    margin: 0 5px;
+    border-radius: 7px;
+    background-color: var(--cor1);
+    box-shadow: inset -1px -1px 2px var(--cor5);
+    overflow: hidden;
+}
+.barProgresso::after{
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 7px;
+    width: 100%;
+    height: 14px;
+    box-shadow: inset 1px 1px 2px #ffffff;
+}
+.barProgresso::before{
+    content: "";
+    position: absolute;
+    top: 0;
+    border-radius: 7px;
+    left: -20%;
+    width: 100%;
+    height: 14px;
+    background-color: var(--cor5);
 }
