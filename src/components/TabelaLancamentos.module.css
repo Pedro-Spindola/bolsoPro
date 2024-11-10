@@ -1,0 +1,34 @@
+/* Linhas da tabela (cor de fundo amarelo) */
+.tr {
+    background-color: var(--cor2);
+    height: 50px;
+}
+  
+/* Células da tabela */
+.td {
+    padding: 2px 10px;
+    border-bottom: 1px solid var(--cor5);
+    text-align: left;
+    height: 50px;
+    font-size: 14px;
+    font-weight: 400;
+}
+.td:nth-child(3){
+    text-align: center;
+    padding: 2px 2px;
+}
+.td:nth-child(3), .td:nth-child(4), .td:nth-child(5){
+    text-align: center;
+}
+.td:nth-child(6){
+    font-size: 15px;
+    font-weight: 600;
+}
+.imgTd{
+    height: 40px;
+    background-color: var(--cor5);
+    margin: 2px 0;
+    padding: 6px;
+    border-radius: 10px;
+    vertical-align: middle;
+}

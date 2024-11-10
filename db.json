@@ -1,0 +1,131 @@
+{
+    "contas": [
+        {
+            "id": 1,
+            "nome": "Nubank"
+        },
+        {
+            "id": 2,
+            "nome": "Inter"
+        },
+        {
+            "id": 3,
+            "nome": "Mercado Pago"
+        }
+    ],
+    "lancamentos": [],
+    "categoriasReceitas": [
+        {
+            "id": 1,
+            "nome": "Salário"
+        },
+        {
+            "id": 2,
+            "nome": "Renda Extras"
+        },
+        {
+            "id": 3,
+            "nome": "Investimentos"
+        },
+        {
+            "id": 4,
+            "nome": "Criptomoedas"
+        }
+    ],
+    "categoriasDespesas": [
+        {
+            "id": 1,
+            "nome": "Moradia"
+        },
+        {
+            "id": 2,
+            "nome": "Alimentação"
+        },
+        {
+            "id": 3,
+            "nome": "Transporte"
+        },
+        {
+            "id": 4,
+            "nome": "Educação"
+        },
+        {
+            "id": 5,
+            "nome": "Lazer"
+        },
+        {
+            "id": 6,
+            "nome": "Saúde"
+        },
+        {
+            "id": 7,
+            "nome": "Compras"
+        },
+        {
+            "id": 8,
+            "nome": "Animal de Estimação"
+        },
+        {
+            "id": 9,
+            "nome": "Impostos"
+        },
+        {
+            "id": 10,
+            "nome": "Outros"
+        }
+    ],
+    "subcategoriasReceitas":[
+        {
+            "id": 1,
+            "nome": "Aluguel",
+            "id_categoria": 1
+        },
+        {
+            "id": 2,
+            "nome": "Condomínio",
+            "id_categoria": 2
+        },
+        {
+            "id": 3,
+            "nome": "Energia",
+            "id_categoria": 2
+        },
+        {
+            "id": 4,
+            "nome": "Gás",
+            "id_categoria": 3
+        },
+        {
+            "id": 5,
+            "nome": "Celular",
+            "id_categoria": 5
+        }
+    ],
+    "subcategoriasDespesas":[
+        {
+            "id": 1,
+            "nome": "Aluguel",
+            "id_categoria": 1
+        },
+        {
+            "id": 2,
+            "nome": "Condomínio",
+            "id_categoria": 1
+        },
+        {
+            "id": 3,
+            "nome": "Energia",
+            "id_categoria": 1
+        },
+        {
+            "id": 4,
+            "nome": "Gás",
+            "id_categoria": 1
+        },
+        {
+            "id": 5,
+            "nome": "Celular",
+            "id_categoria": 1
+        }
+    ]
+}

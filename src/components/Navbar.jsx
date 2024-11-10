@@ -48,17 +48,17 @@ const Navbar = () => {
                 </div>
             </div>
             <ul>
-                <li>
-                    <Link className={styles.link} to="/"><a href="">Home</a> </Link>
+            <li>
+                    <Link className={styles.link} to="/"><span>Home</span></Link>
                 </li>
                 <li>
-                    <Link className={styles.link} to="/"><a href="">Lançamentos</a> </Link>
+                    <Link className={styles.link} to="/Lancamentos"><span>Lançamentos</span></Link>
                 </li>
                 <li>
-                    <Link className={styles.link} to="/"><a href="">Relatórios</a> </Link>
+                    <Link className={styles.link} to="/"><span>Relatórios</span></Link>
                 </li>
                 <li>
-                    <Link className={styles.link} to="/"><a href="">Opções</a> </Link>
+                    <Link className={styles.link} to="/Opcao"><span>Opções</span></Link>
                 </li>   
             </ul>
             <div className={styles.footer}>

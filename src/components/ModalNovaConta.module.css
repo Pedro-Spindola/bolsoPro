@@ -1,0 +1,94 @@
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    z-index: 1000;
+}
+.container{
+    display: flex;
+    position: relative;
+    flex-wrap: wrap;
+    width: 500px;
+    margin-top: 100px;
+    background-color: var(--cor1);
+    border-bottom: 10px solid var(--cor5);
+    border-top: 10px solid var(--cor5);
+    border-radius: 10px;
+    z-index: 1001;
+}
+.container h1{
+    width: 100%;
+    text-align: center;
+    align-content: center;
+    height: 40px;
+}
+.container input[type="text"]{
+    margin: 0 20px;
+    width: 100%;
+    height: 35px;
+    border: 1px solid var(--cor5);
+    border-radius: 6px;
+}
+
+.container input[type="checkbox"]{
+    margin: 20px 10px 20px 20px;
+    width: 20px;
+    height: 20px;
+}
+.container input{
+    color: var(--cor6);
+    padding-left: 10px;
+}
+.container input:focus{
+    outline: none;
+    border-color: var(--cor6);
+}
+.container label{
+    width: 100%;
+    margin: 0 20px;
+    font-size: 12px;
+    color: var(--cor6);
+    font-weight: 400;
+    align-content: center;
+    padding-left: 10px;
+    height: 20px;
+    margin-top: 10px;
+}
+.container label:nth-of-type(4){
+    width: auto;
+    font-size: 14px;
+    font-weight: 500;
+    margin: 0px;
+    padding-left: 0;
+    height: 20px;
+    margin-top: 20px;
+}
+.limiteDisponivel{
+    display: none;
+    flex-wrap: wrap;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.on{
+    display: flex;
+}
+.boxButton{
+    display: flex;
+    width: 100%;
+    margin: 20px;
+    justify-content: space-around;
+}
+.boxButton button{
+    width: 40%;
+    height: 35px;
+    background-color: var(--cor4);
+    border: 1px solid var(--cor5);
+    color: var(--cor1);
+    border-radius: 4px;
+    cursor: pointer;
+}

@@ -1,6 +1,7 @@
 import styles from "./Home.module.css"
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { EffectCards } from 'swiper/modules';
+import React, { useState } from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { EffectCards } from 'swiper/modules'
 import "swiper/css"
 import "swiper/css/effect-cards"
 import carteira from "../image/moedas.png"
@@ -8,8 +9,34 @@ import rendaMensal from "../image/lucros.png"
 import despesasMensal from "../image/perda.png"
 import Cartao from "../components/Cartao"
 import BoxPlanosConquista from "../components/BoxPlanosConquista"
+import TabelaLancamentos from "../components/TabelaLancamentos"
+import ModalReceita from "../components/ModalNovaReceita"
+import ModalDespesas from "../components/ModalNovaDespesas"
 
 const Home = () => {
+
+  // Estado para controlar a visibilidade do modal
+  const [isModalOpenReceita, setIsModalOpenReceita] = useState(false);
+  const [isModalOpenDespesas, setIsModalOpenDespesas] = useState(false);
+
+  // Função que abre o modal
+  const handleReceitaClick = () => {
+    setIsModalOpenReceita(true); // Atualiza o estado para abrir o modal
+  };
+
+  // Função para fechar o modal
+  const closeModalReceita = () => {
+    setIsModalOpenReceita(false); // Atualiza o estado para fechar o modal
+  };
+
+  const handleDespesasClick = () => {
+    setIsModalOpenDespesas(true); // Atualiza o estado para abrir o modal
+  };
+
+  const closeModalDespesas = () => {
+    setIsModalOpenDespesas(false); // Atualiza o estado para fechar o modal
+  };
+
   return (
     <section className={styles.telaHome}>
       <div className={styles.container01}>
@@ -32,7 +59,18 @@ const Home = () => {
             <h2>Saída</h2>
             <img src={despesasMensal} alt="" />
             <h3>R$ 2.120,00</h3>
-            <div className=""></div>
+            <div className={styles.boxAtalhos}>
+              <h2>Atalhos</h2>
+              <button className={`${styles.btnNewReceita} ${styles.btnAtalhos}`} onClick={handleReceitaClick} >Receita</button>
+              <button className={`${styles.btnNewReceita} ${styles.btnAtalhos}`} onClick={handleDespesasClick}>Despesas</button>
+              <button className={`${styles.btnNewReceita} ${styles.btnAtalhos}`}>Transf.</button>
+                {isModalOpenReceita && (
+                  <ModalReceita onClose={closeModalReceita} />
+                )}
+                {isModalOpenDespesas && (
+                  <ModalDespesas onClose={closeModalDespesas} />
+                )}
+            </div>
           </div>
         </div>
         <div className={styles.boxPlanejamentos}>
@@ -44,7 +82,31 @@ const Home = () => {
           </div>
         </div>
         <div className={styles.boxTabelaUltimosLancamentos}>
-        
+          <table className={styles.tableUltimosLancamentos}>
+            <colgroup>
+              <col style={{ width:'12%'}} />
+              <col style={{ width:'38%'}} />
+              <col style={{ width:'8%'}} />
+              <col style={{ width:'14%'}} />
+              <col style={{ width:'14%'}} />
+              <col style={{ width:'14%'}} />
+            </colgroup>
+            <thead>
+              <tr className={styles.tr}>
+                <th className={styles.th}>Data</th>
+                <th className={styles.th}>Descrição</th>
+                <th className={styles.th}></th>
+                <th className={styles.th}>Categoria</th>
+                <th className={styles.th}>Conta</th>
+                <th className={styles.th}>Valor</th>
+              </tr>
+            </thead>
+            <tbody>
+              <TabelaLancamentos data="21/10/2024" descricao="Gasolina" icon={carteira} categoria="Transporte" conta="Nubank" valor="R$ 80,00"></TabelaLancamentos>
+              <TabelaLancamentos data="21/10/2024" descricao="Gasolina" icon={carteira} categoria="Transporte" conta="Nubank" valor="R$ 80,00"></TabelaLancamentos>
+              <TabelaLancamentos data="21/10/2024" descricao="Gasolina" icon={carteira} categoria="Transporte" conta="Nubank" valor="R$ 80,00"></TabelaLancamentos>
+            </tbody>
+          </table>
         </div>
       </div>
       <div className={styles.container02}>
