@@ -1,19 +1,38 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from "./Opcao.module.css"
 import opcaoImg from "../image/moedas.png"
 import ModalNovaConta from "../components/ModalNovaConta"
 
 function Opcao() {
 
-  const [isModalOpenNewCont, setIsModalOpenNewCont] = useState(false);
+    const [isModalOpenNewCont, setIsModalOpenNewCont] = useState(false);
+    const [minhasContas, setMinhasContas] = useState([])
 
-  const handleNewContClick = () => {
-    setIsModalOpenNewCont(true);
-  };
+    const handleNewContClick = () => {
+        setIsModalOpenNewCont(true);
+    };
 
-  const closeModalNewCont = () => {
-    setIsModalOpenNewCont(false);
-  };
+    const closeModalNewCont = () => {
+        setIsModalOpenNewCont(false);
+    };
+
+    useEffect(function(){
+
+        fetch('http://localhost:5000/contas', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+
+        .then(resp => resp.json())
+        .then(data => {
+            setMinhasContas(data)
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    }, [minhasContas])
 
   return (
     <section className={styles.telaOpcao}>
@@ -39,26 +58,14 @@ function Opcao() {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td><img className={styles.imgLogotipo} src={opcaoImg} alt="" /></td>
-                                <td>NomeConta</td>
-                                <td><img className={styles.iconeEditar} src={opcaoImg} alt="" /></td>
-                            </tr>
-                            <tr>
-                                <td><img className={styles.imgLogotipo} src={opcaoImg} alt="" /></td>
-                                <td>NomeConta</td>
-                                <td><img className={styles.iconeEditar} src={opcaoImg} alt="" /></td>
-                            </tr>
-                            <tr>
-                                <td><img className={styles.imgLogotipo} src={opcaoImg} alt="" /></td>
-                                <td>NomeConta</td>
-                                <td><img className={styles.iconeEditar} src={opcaoImg} alt="" /></td>
-                            </tr>
-                            <tr>
-                                <td><img className={styles.imgLogotipo} src={opcaoImg} alt="" /></td>
-                                <td>NomeConta</td>
-                                <td><img className={styles.iconeEditar} src={opcaoImg} alt="" /></td>
-                            </tr>
+                            {minhasContas
+                                .map((conta) => (
+                                    <tr key={conta.id}>
+                                        <td><img className={styles.imgLogotipo} src={opcaoImg} alt="" /></td>
+                                        <td>{conta.nome}</td>
+                                        <td><img className={styles.iconeEditar} src={opcaoImg} alt="" /></td>
+                                    </tr>
+                            ))}
                         </tbody>
                     </table>
                 </div>

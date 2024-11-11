@@ -204,18 +204,6 @@
     overflow: hidden;
     border-radius: 10px;
 }
-.carrocelCartao .cartao1{
-    background-image: linear-gradient(to right bottom, #ba4de3, #9f3bca, #852ab2, #6c179a, #530082);
-    box-shadow: inset 1px 1px 4px #ffffff81;
-}
-.carrocelCartao .cartao2{
-    background-image: linear-gradient(to right, #e56700, #e16000, #dd5800, #d85100, #d44900);
-    box-shadow: inset 1px 1px 4px #ffffff81;
-}
-.carrocelCartao .cartao3{
-    background-image: linear-gradient(to right top, #4287f5, #346cc8, #25529c, #163973, #07224c);
-    box-shadow: inset 1px 1px 4px #ffffff81;
-}
 .informacaoCartao{
     width: calc(100% - 440px);
     display: flex;

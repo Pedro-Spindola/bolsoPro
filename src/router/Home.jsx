@@ -1,5 +1,5 @@
 import styles from "./Home.module.css"
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { EffectCards } from 'swiper/modules'
 import "swiper/css"
@@ -14,6 +14,9 @@ import ModalReceita from "../components/ModalNovaReceita"
 import ModalDespesas from "../components/ModalNovaDespesas"
 
 const Home = () => {
+
+  const [minhasContas, setMinhasContas] = useState([])
+  const [contaAtivaId, setContaAtivaId] = useState(minhasContas[1]?.id || null);
 
   // Estado para controlar a visibilidade do modal
   const [isModalOpenReceita, setIsModalOpenReceita] = useState(false);
@@ -36,6 +39,47 @@ const Home = () => {
   const closeModalDespesas = () => {
     setIsModalOpenDespesas(false); // Atualiza o estado para fechar o modal
   };
+
+  useEffect(function(){
+
+    fetch('http://localhost:5000/contas', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+
+    .then(resp => resp.json())
+    .then(data => {
+        setMinhasContas(data)
+    })
+    .catch(err => {
+        console.log(err)
+    })
+  }, [minhasContas])
+
+  useEffect(() => {
+    // Define a conta inicial apenas se o swiper não estiver inicializado ainda
+    if (!contaAtivaId && minhasContas.length > 0) {
+      setContaAtivaId(minhasContas[0]);
+    }
+  }, [minhasContas, contaAtivaId]);
+  
+  const handleSlideChange = (swiper) => {
+    const novaContaAtiva = minhasContas[swiper.activeIndex];
+    setContaAtivaId(novaContaAtiva);
+  };
+
+  const handleButtonTeste = (event) =>{
+    console.log(contaAtivaId);
+  }
+
+  function formatarParaReal(valor) {
+    return valor.toLocaleString('pt-BR', {
+      style: 'currency',
+      currency: 'BRL'
+    });
+  }
 
   return (
     <section className={styles.telaHome}>
@@ -63,7 +107,7 @@ const Home = () => {
               <h2>Atalhos</h2>
               <button className={`${styles.btnNewReceita} ${styles.btnAtalhos}`} onClick={handleReceitaClick} >Receita</button>
               <button className={`${styles.btnNewReceita} ${styles.btnAtalhos}`} onClick={handleDespesasClick}>Despesas</button>
-              <button className={`${styles.btnNewReceita} ${styles.btnAtalhos}`}>Transf.</button>
+              <button className={`${styles.btnNewReceita} ${styles.btnAtalhos}`} onClick={handleButtonTeste}>Transf.</button>
                 {isModalOpenReceita && (
                   <ModalReceita onClose={closeModalReceita} />
                 )}
@@ -112,28 +156,28 @@ const Home = () => {
       <div className={styles.container02}>
         <div className={styles.boxMeusCartoes}>
           <div className={styles.carrocelCartao}>
-            <Swiper effect={'cards'} grabCursor={true} modules={[EffectCards]} className={styles.swiper_container}>
-              <SwiperSlide className={styles.swiper_slide}><Cartao className={styles.cartao1} nomeCartao="NuBank" bandeira="Mastercard" nomeCompleto="Pedro Spíndola" ultimosNumero="0366" validadeAno="08" validadeMes="31" /></SwiperSlide>
-              <SwiperSlide className={styles.swiper_slide}><Cartao className={styles.cartao2} nomeCartao="Inter" bandeira="Mastercard" nomeCompleto="Pedro Spíndola" ultimosNumero="0485" validadeAno="12" validadeMes="29" /></SwiperSlide>
-              <SwiperSlide className={styles.swiper_slide}><Cartao className={styles.cartao3} nomeCartao="Mercado Pago" bandeira="Visa" nomeCompleto="Pedro Spíndola" ultimosNumero="4256" validadeAno="22" validadeMes="28" /></SwiperSlide>
+            <Swiper effect={'cards'} grabCursor={true} modules={[EffectCards]} className={styles.swiper_container} onSlideChange={handleSlideChange}>
+              {minhasContas.map((conta) => (
+                <SwiperSlide className={styles.swiper_slide} key={conta.id}><Cartao className={styles.cartao1} nomeCartao={conta.nome} bandeira="---" nomeCompleto="Pedro Spíndola" ultimosNumero="****" validadeAno="08" validadeMes="31" /></SwiperSlide>
+              ))}
             </Swiper>
           </div>
           <div className={styles.informacaoCartao}>
             <div className={styles.boxInforPadrao}>
               <h3>Disponível</h3>
-              <h2>R$ 1.200,00</h2>
+              <h2>{formatarParaReal(contaAtivaId ? contaAtivaId.saldo : 0)}</h2>
             </div>
             <div className={styles.boxInforPadrao}>
               <h3>Fatura Atual</h3>
-              <h2>R$ 380,00</h2>
+              <h2>---</h2>
             </div>
             <div className={styles.boxInforPadrao}>
-              <h3>Data de fechamneto</h3>
-              <h2>12/05</h2>
+              <h3>Data de fechamento</h3>
+              <h2>{contaAtivaId ? contaAtivaId.fechamento_cartao : ""}</h2>
             </div>
             <div className={styles.boxInforPadrao}>
               <h3>Variação Mensal</h3>
-              <h2>2.45%</h2>
+              <h2>0.00%</h2>
             </div>
             <div className={styles.graficoFaturaMensal}>
 

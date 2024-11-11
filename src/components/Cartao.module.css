@@ -37,6 +37,8 @@
     padding: 10px 20px;
     border-radius: 9px;
     color: white;
+    align-items: start;
+    background-image: linear-gradient(to right bottom, #0f0f0f, #1f1f1f, #2f2f2f, #404040, #515151);
 }
 .cartao::after{
     content: "";
@@ -51,24 +53,11 @@
     font-size: 14px;
     font-weight: 500;
     letter-spacing: 1px;
-    width: 70%;
-}
-.nomeBandeira{
-    font-size: 12px;
-    font-weight: 400;
-    letter-spacing: 1px;
-    width: 30%;
-    text-align: end;
+    width: 100%;
 }
 .chip{
     width: 32px;
-}
-.numeros{
-    font-size: 14px;
-    font-weight: 500;
-    text-align: center;
-    letter-spacing: 5px;
-    width: 100%;
+    margin: 30px 100% 50px 0px;
 }
 .nomeUser{
     font-size: 14px;
@@ -76,9 +65,5 @@
     width: 80%;
     text-transform: uppercase;
     letter-spacing: 2px;
-}
-.validade{
-    font-size: 12px;
-    font-weight: 400;
-    width: 20%;
+    padding-bottom: 100%;
 }

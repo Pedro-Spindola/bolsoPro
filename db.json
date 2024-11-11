@@ -1,131 +1,146 @@
 {
-    "contas": [
-        {
-            "id": 1,
-            "nome": "Nubank"
-        },
-        {
-            "id": 2,
-            "nome": "Inter"
-        },
-        {
-            "id": 3,
-            "nome": "Mercado Pago"
-        }
-    ],
-    "lancamentos": [],
-    "categoriasReceitas": [
-        {
-            "id": 1,
-            "nome": "Salário"
-        },
-        {
-            "id": 2,
-            "nome": "Renda Extras"
-        },
-        {
-            "id": 3,
-            "nome": "Investimentos"
-        },
-        {
-            "id": 4,
-            "nome": "Criptomoedas"
-        }
-    ],
-    "categoriasDespesas": [
-        {
-            "id": 1,
-            "nome": "Moradia"
-        },
-        {
-            "id": 2,
-            "nome": "Alimentação"
-        },
-        {
-            "id": 3,
-            "nome": "Transporte"
-        },
-        {
-            "id": 4,
-            "nome": "Educação"
-        },
-        {
-            "id": 5,
-            "nome": "Lazer"
-        },
-        {
-            "id": 6,
-            "nome": "Saúde"
-        },
-        {
-            "id": 7,
-            "nome": "Compras"
-        },
-        {
-            "id": 8,
-            "nome": "Animal de Estimação"
-        },
-        {
-            "id": 9,
-            "nome": "Impostos"
-        },
-        {
-            "id": 10,
-            "nome": "Outros"
-        }
-    ],
-    "subcategoriasReceitas":[
-        {
-            "id": 1,
-            "nome": "Aluguel",
-            "id_categoria": 1
-        },
-        {
-            "id": 2,
-            "nome": "Condomínio",
-            "id_categoria": 2
-        },
-        {
-            "id": 3,
-            "nome": "Energia",
-            "id_categoria": 2
-        },
-        {
-            "id": 4,
-            "nome": "Gás",
-            "id_categoria": 3
-        },
-        {
-            "id": 5,
-            "nome": "Celular",
-            "id_categoria": 5
-        }
-    ],
-    "subcategoriasDespesas":[
-        {
-            "id": 1,
-            "nome": "Aluguel",
-            "id_categoria": 1
-        },
-        {
-            "id": 2,
-            "nome": "Condomínio",
-            "id_categoria": 1
-        },
-        {
-            "id": 3,
-            "nome": "Energia",
-            "id_categoria": 1
-        },
-        {
-            "id": 4,
-            "nome": "Gás",
-            "id_categoria": 1
-        },
-        {
-            "id": 5,
-            "nome": "Celular",
-            "id_categoria": 1
-        }
-    ]
+  "contas": [
+    {
+      "id": "1",
+      "nome": "Nubank",
+      "icone": "",
+      "saldo": 1400,
+      "Investimentos": 3000,
+      "cartao_credito": true,
+      "limite_cartao": 4000,
+      "fechamento_cartao": 22,
+      "vencimento_cartao": 28
+    },
+    {
+      "id": "2",
+      "nome": "Inter",
+      "icone": "",
+      "saldo": 800,
+      "Investimentos": 1200,
+      "cartao_credito": true,
+      "limite_cartao": 3000,
+      "fechamento_cartao": 22,
+      "vencimento_cartao": 28
+    },
+    {
+      "id": "3",
+      "nome": "Mercado Pago",
+      "icone": "",
+      "saldo": 1100,
+      "Investimentos": 3000,
+      "cartao_credito": true,
+      "limite_cartao": 2000,
+      "fechamento_cartao": 22,
+      "vencimento_cartao": 28
+    },
+    {
+      "id": "4d18",
+      "nome": "TestBanco",
+      "icone": "",
+      "saldo": 1480.2,
+      "investimentos": 1200,
+      "cartao_credito": true,
+      "limite_cartao": 2500,
+      "fechamento_cartao": 20,
+      "vencimento_cartao": 28
+    }
+  ],
+  "faturas": [
+    {
+      "id": "1",
+      "id_conta": "Nubank",
+      "data_fatura": "10/2024",
+      "valor_fatura": 2000,
+      "status": ""
+    }
+  ],
+  "lancamentos": [],
+  "categoriasReceitas": [
+    {
+      "id": "1",
+      "nome": "Salário"
+    },
+    {
+      "id": "2",
+      "nome": "Renda Extras"
+    },
+    {
+      "id": "3",
+      "nome": "Investimentos"
+    },
+    {
+      "id": "4",
+      "nome": "Criptomoedas"
+    }
+  ],
+  "categoriasDespesas": [
+    {
+      "id": "1",
+      "nome": "Moradia"
+    },
+    {
+      "id": "2",
+      "nome": "Alimentação"
+    },
+    {
+      "id": "3",
+      "nome": "Transporte"
+    },
+    {
+      "id": "4",
+      "nome": "Educação"
+    },
+    {
+      "id": "5",
+      "nome": "Lazer"
+    },
+    {
+      "id": "6",
+      "nome": "Saúde"
+    },
+    {
+      "id": "7",
+      "nome": "Compras"
+    },
+    {
+      "id": "8",
+      "nome": "Animal de Estimação"
+    },
+    {
+      "id": "9",
+      "nome": "Impostos"
+    },
+    {
+      "id": "10",
+      "nome": "Outros"
+    }
+  ],
+  "subcategoriasReceitas": [],
+  "subcategoriasDespesas": [
+    {
+      "id": "1",
+      "nome": "Aluguel",
+      "id_categoria": 1
+    },
+    {
+      "id": "2",
+      "nome": "Condomínio",
+      "id_categoria": 1
+    },
+    {
+      "id": "3",
+      "nome": "Energia",
+      "id_categoria": 1
+    },
+    {
+      "id": "4",
+      "nome": "Gás",
+      "id_categoria": 1
+    },
+    {
+      "id": "5",
+      "nome": "Celular",
+      "id_categoria": 1
+    }
+  ]
 }
