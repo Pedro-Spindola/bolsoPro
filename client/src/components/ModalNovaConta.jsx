@@ -6,27 +6,29 @@ const ModalNovaConta = ({onClose}) => {
 
     const [isCartaoCreditoDisponivel, setIsCartaoCreditoDisponivel] = useState(false);
     const [saldo, setSaldo] = useState("");
-    
-    const [minhasContas, setMeusFilmes] = useState([])
 
-    function adicionarNovaConta(NewCont){
-
-        fetch('http://localhost:5000/contas', {
-            method: 'POST',
+    function adicionarNovaConta(NewCont) {
+        fetch("http://127.0.0.1:3000/api/contas", {
+            method: "POST", // Enviando dados para adicionar
             headers: {
-                'Content-type': 'application/json'
+                "Content-Type": "application/json"
             },
-            body: JSON.stringify(NewCont)
+            body: JSON.stringify(NewCont) // Envia o objeto como JSON
         })
-        .then(resp => resp.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Falha ao adicionar a conta.");
+            }
+            return response.json(); // Converte a resposta para JSON
+        })
         .then(data => {
-            console.log(data);
-            setMeusFilmes([...minhasContas, data]);
+            console.log("Conta adicionada com sucesso:", data);
         })
-        .catch(err => {
-            console.log(err)
-        })
+        .catch(error => {
+            console.error("Erro ao adicionar a conta:", error);
+        });
     }
+    
 
     // Função para formatar o valor no campo de input
     const handleChange = (event) => {
@@ -61,12 +63,13 @@ const ModalNovaConta = ({onClose}) => {
     const handleSubmitNovaConta = (event) => {
         event.preventDefault();
         const nome = document.getElementById("nomeDaConta").value;
-        const saldoDaConta = parseFloat(saldo.replace(/\./g, "").replace(",", "."));
-        const valorInvestimento = parseFloat(document.getElementById("valorInvestido").value);
+        const saldoDaConta = isNaN(parseFloat(saldo.replace(/\./g, "").replace(",", "."))) ? 0 : parseFloat(saldo.replace(/\./g, "").replace(",", "."));
+        const valorInvestimento = isNaN(parseFloat(document.getElementById("valorInvestido").value)) ? 0 : parseFloat(document.getElementById("valorInvestido").value);
         const cartaoDeCredito = document.getElementById("cartaoDeCredito").checked;
-        const limiteDisponivel = parseFloat(document.getElementById("limiteDisponivel").value);
-        const dataFechamento = parseInt(document.getElementById("dataDeFechamentoDaFatura").value);
-        const dataVencimento = parseInt(document.getElementById("dataDeVencimento").value);
+        const limiteDisponivel = isNaN(parseFloat(document.getElementById("limiteDisponivel").value)) ? 0 : parseFloat(document.getElementById("limiteDisponivel").value);
+        const dataFechamento = isNaN(parseInt(document.getElementById("dataDeFechamentoDaFatura").value)) ? null : parseInt(document.getElementById("dataDeFechamentoDaFatura").value);
+        const dataVencimento = isNaN(parseInt(document.getElementById("dataDeVencimento").value)) ? null : parseInt(document.getElementById("dataDeVencimento").value);
+
 
         if (!nome || nome.trim() === "") {
             console.log("O nome da conta é obrigatório.");
@@ -97,20 +100,20 @@ const ModalNovaConta = ({onClose}) => {
             }
         }
 
+        // Criando objeto novaConta para enviar ao backend
         const novaConta = {
-            nome: nome,
-            icone: "",
-            saldo: saldoDaConta,
-            investimentos: valorInvestimento,
+            nome_banco: nome,  // As variáveis no backend devem corresponder às variáveis enviadas aqui
+            saldo_conta: saldoDaConta,
+            investimento_conta: valorInvestimento,
             cartao_credito: cartaoDeCredito,
             limite_cartao: limiteDisponivel,
             fechamento_cartao: dataFechamento,
             vencimento_cartao: dataVencimento
         };
-        console.log(novaConta)
-        adicionarNovaConta(novaConta);
 
-        console.log("Cartão adicionado com sucesso. ;)")
+        adicionarNovaConta(novaConta);
+        console.log(novaConta);
+        console.log("Cartão adicionado com sucesso. ;)");
         onClose();
     }
 

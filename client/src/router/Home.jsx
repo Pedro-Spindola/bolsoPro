@@ -2,6 +2,7 @@ import styles from "./Home.module.css"
 import React, { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { EffectCards } from 'swiper/modules'
+import axios from 'axios';
 import "swiper/css"
 import "swiper/css/effect-cards"
 import carteira from "../image/moedas.png"
@@ -15,8 +16,8 @@ import ModalDespesas from "../components/ModalNovaDespesas"
 
 const Home = () => {
 
-  const [minhasContas, setMinhasContas] = useState([])
-  const [contaAtivaId, setContaAtivaId] = useState(minhasContas[1]?.id || null);
+  const [contas, setContas] = useState([]);
+  const [contaAtivaId, setContaAtivaId] = useState(contas[1]?.id || null);
 
   // Estado para controlar a visibilidade do modal
   const [isModalOpenReceita, setIsModalOpenReceita] = useState(false);
@@ -40,33 +41,15 @@ const Home = () => {
     setIsModalOpenDespesas(false); // Atualiza o estado para fechar o modal
   };
 
-  useEffect(function(){
-
-    fetch('http://localhost:5000/contas', {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-        }
-    })
-
-    .then(resp => resp.json())
-    .then(data => {
-        setMinhasContas(data)
-    })
-    .catch(err => {
-        console.log(err)
-    })
-  }, [minhasContas])
-
   useEffect(() => {
     // Define a conta inicial apenas se o swiper não estiver inicializado ainda
-    if (!contaAtivaId && minhasContas.length > 0) {
-      setContaAtivaId(minhasContas[0]);
+    if (!contaAtivaId && contas.length > 0) {
+      setContaAtivaId(contas[0]);
     }
-  }, [minhasContas, contaAtivaId]);
+  }, [contas, contaAtivaId]);
   
   const handleSlideChange = (swiper) => {
-    const novaContaAtiva = minhasContas[swiper.activeIndex];
+    const novaContaAtiva = contas[swiper.activeIndex];
     setContaAtivaId(novaContaAtiva);
   };
 
@@ -80,6 +63,20 @@ const Home = () => {
       currency: 'BRL'
     });
   }
+
+  // Chama a API para buscar as contas
+  useEffect(() => {
+    const fetchContas = async () => {
+        try {
+            const response = await axios.get('http://127.0.0.1:3000/api/contas');
+            setContas(response.data);
+        } catch (error) {
+            console.error('Erro ao buscar contas:', error);
+        }
+    };
+
+    fetchContas();
+  }, []);
 
   return (
     <section className={styles.telaHome}>
@@ -157,15 +154,15 @@ const Home = () => {
         <div className={styles.boxMeusCartoes}>
           <div className={styles.carrocelCartao}>
             <Swiper effect={'cards'} grabCursor={true} modules={[EffectCards]} className={styles.swiper_container} onSlideChange={handleSlideChange}>
-              {minhasContas.map((conta) => (
-                <SwiperSlide className={styles.swiper_slide} key={conta.id}><Cartao className={styles.cartao1} nomeCartao={conta.nome} bandeira="---" nomeCompleto="Pedro Spíndola" ultimosNumero="****" validadeAno="08" validadeMes="31" /></SwiperSlide>
+              {contas.map((conta) => (
+                <SwiperSlide className={styles.swiper_slide} key={conta.id_contas}><Cartao className={styles.cartao1} nomeCartao={conta.nome_banco} bandeira="---" nomeCompleto="Pedro Spíndola" ultimosNumero="****" validadeAno="08" validadeMes="31" /></SwiperSlide>
               ))}
             </Swiper>
           </div>
           <div className={styles.informacaoCartao}>
             <div className={styles.boxInforPadrao}>
               <h3>Disponível</h3>
-              <h2>{formatarParaReal(contaAtivaId ? contaAtivaId.saldo : 0)}</h2>
+              <h2>{formatarParaReal(contaAtivaId ? contaAtivaId.saldo_conta : 0)}</h2>
             </div>
             <div className={styles.boxInforPadrao}>
               <h3>Fatura Atual</h3>
