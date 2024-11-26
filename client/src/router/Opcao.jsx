@@ -7,7 +7,9 @@ import axios from 'axios';
 function Opcao() {
 
     const [isModalOpenNewCont, setIsModalOpenNewCont] = useState(false);
+    const [isModalOpenEdit, setIsModalOpenEdit] = useState(false);
     const [contas, setContas] = useState([]);
+    const [contaSelect, setContaSelect] = useState([]);
     
     const handleNewContClick = () => {
         setIsModalOpenNewCont(true);
@@ -15,6 +17,15 @@ function Opcao() {
 
     const closeModalNewCont = () => {
         setIsModalOpenNewCont(false);
+    };
+
+    const handleEditClick = (conta) => {
+        setIsModalOpenEdit(true);
+        setContaSelect(conta);
+    };
+
+    const closeModalEdit = () => {
+        setIsModalOpenEdit(false);
     };
 
     // Chama a API para buscar as contas
@@ -30,7 +41,7 @@ function Opcao() {
 
         fetchContas();
     }, []);
-
+    
     return (
         <section className={styles.telaOpcao}>
             <div className={styles.container01}>
@@ -62,7 +73,7 @@ function Opcao() {
                                         </td>
                                         <td>{conta.nome_banco}</td>
                                         <td>
-                                            <img src={opcaoImg}/>
+                                            <img src={opcaoImg} onClick={() => handleEditClick(conta)}/>
                                         </td>
                                     </tr>
                                 ))}
@@ -72,7 +83,10 @@ function Opcao() {
                 </div>
             </div>
             {isModalOpenNewCont && (
-                <ModalNovaConta onClose={closeModalNewCont} />
+                <ModalNovaConta onClose={closeModalNewCont}/>
+            )}
+            {isModalOpenEdit && (
+                <ModalNovaConta onClose={closeModalEdit} contaEdit={contaSelect}/>
             )}
         </section>
     )

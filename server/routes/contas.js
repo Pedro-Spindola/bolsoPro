@@ -16,8 +16,6 @@ module.exports = (connection) => {
 
     // Rota para adicionar uma nova conta
     router.post('/', (req, res) => {
-        console.log(req.body);
-
         const { nome_banco, saldo_conta, investimento_conta, cartao_credito, limite_cartao, fechamento_cartao, vencimento_cartao } = req.body;
    
         const query = 'INSERT INTO contas (nome_banco, saldo_conta, investimento_conta, cartao_credito, limite_cartao, fechamento_cartao, vencimento_cartao) VALUES (?, ?, ?, ?, ?, ?, ?)';
@@ -31,6 +29,20 @@ module.exports = (connection) => {
             res.status(201).json({ message: 'Conta criada com sucesso', id: results.insertId });
         });
     });   
+
+    router.put('/:id_conta', (req, res) => {
+        const { id_conta } = req.params;
+        const { nome_banco, saldo_conta, investimento_conta, cartao_credito, limite_cartao, fechamento_cartao, vencimento_cartao } = req.body;
+    
+        const query = 'UPDATE contas SET nome_banco = ?, saldo_conta = ?, investimento_conta = ?, cartao_credito = ?, limite_cartao = ?, fechamento_cartao = ?, vencimento_cartao = ? WHERE id_contas = ?';
+        connection.query(query, [nome_banco, saldo_conta, investimento_conta, cartao_credito, limite_cartao, fechamento_cartao, vencimento_cartao, id_conta], (err, results) => {
+            if (err) {
+                console.error('Erro ao atualizar conta', err);
+                return res.status(500).json({ message: 'Erro ao atualizar conta', error: err });
+            }
+            res.status(200).json({ message: 'Conta atualizada com sucesso', results });
+        });
+    });    
 
   return router;
 };

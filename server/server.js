@@ -3,6 +3,9 @@ const app = express();
 const cors = require('cors');
 const mysql = require('mysql2');
 const contasRoutes = require('./routes/contas');
+const categoriasRoutes = require('./routes/categorias');
+const subcategoriasRoutes = require('./routes/subcategorias');
+const faturasRoutes = require('./routes/faturas');
 
 // Configuração do banco de dados MySQL
 const connection = mysql.createConnection({
@@ -28,7 +31,13 @@ connection.connect((err) => {
 app.use(express.json());
 
 // Usando as rotas de contas
-app.use('/api/contas', contasRoutes(connection));  // Passando a conexão para as rotas
+app.use('/api/contas', contasRoutes(connection));
+// Usando as rotas de categorias
+app.use('/api/categorias', categoriasRoutes(connection));
+// Usando as rotas de subcategorias
+app.use('/api/subcategorias', subcategoriasRoutes(connection));
+// Usando as rotas de faturas
+app.use('/api/faturas', faturasRoutes(connection));
 
 // Definindo a porta do servidor
 const PORT = process.env.PORT || 3000;
