@@ -14,6 +14,24 @@ module.exports = (connection) => {
         });
     });
 
+    router.get('/conta/:id_conta', (req, res) => {
+        const idConta = req.params.id_conta;  // Obtém o id da conta da URL
+    
+        connection.query('SELECT * FROM faturas WHERE conta_id = ?', [idConta], (err, results) => {
+          if (err) {
+            return res.status(500).json({ message: 'Erro ao consultar as faturas', error: err });
+          }
+    
+          if (results.length === 0) {
+            return res.status(404).json({ message: 'Faturas não encontradas para essa conta' });
+          }
+    
+          res.json(results);  // Retorna as faturas da conta em formato JSON
+        });
+    });
+  
+
+
     // Rota para adicionar uma nova conta
     router.post('/', (req, res) => {
         const { mes_referente, valor_fatura, status_fatura, data_fechamento, data_vencimento, conta_id } = req.body;

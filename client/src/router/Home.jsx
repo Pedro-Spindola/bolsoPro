@@ -190,7 +190,7 @@ const Home = () => {
           <div className={styles.carrocelCartao}>
             <Swiper effect={'cards'} grabCursor={true} modules={[EffectCards]} className={styles.swiper_container} onSlideChange={handleSlideChange}>
               {contas.map((conta) => (
-                <SwiperSlide className={styles.swiper_slide} key={conta.id_contas}><Cartao className={styles.cartao1} nomeCartao={conta.nome_banco} bandeira="---" nomeCompleto="Pedro Spíndola" ultimosNumero="****" validadeAno="08" validadeMes="31" /></SwiperSlide>
+                <SwiperSlide className={styles.swiper_slide} key={conta.id_conta}><Cartao className={styles.cartao1} nomeCartao={conta.nome_banco} bandeira="---" nomeCompleto="Pedro Spíndola" ultimosNumero="****" validadeAno="08" validadeMes="31" /></SwiperSlide>
               ))}
             </Swiper>
           </div>

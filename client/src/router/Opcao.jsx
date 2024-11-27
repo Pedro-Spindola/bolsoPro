@@ -67,7 +67,7 @@ function Opcao() {
                             </thead>
                             <tbody>
                                 {contas.map((conta) => (
-                                    <tr key={conta.id_contas}>
+                                    <tr key={conta.id_conta}>
                                         <td>
                                             <img src={opcaoImg}/>
                                         </td>

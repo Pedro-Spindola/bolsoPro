@@ -6,6 +6,7 @@ const contasRoutes = require('./routes/contas');
 const categoriasRoutes = require('./routes/categorias');
 const subcategoriasRoutes = require('./routes/subcategorias');
 const faturasRoutes = require('./routes/faturas');
+const lancamentosRoutes = require('./routes/lancamentos');
 
 // Configuração do banco de dados MySQL
 const connection = mysql.createConnection({
@@ -38,6 +39,8 @@ app.use('/api/categorias', categoriasRoutes(connection));
 app.use('/api/subcategorias', subcategoriasRoutes(connection));
 // Usando as rotas de faturas
 app.use('/api/faturas', faturasRoutes(connection));
+// Usando as rotas de lancamentos
+app.use('/api/lancamentos', lancamentosRoutes(connection));
 
 // Definindo a porta do servidor
 const PORT = process.env.PORT || 3000;

@@ -34,7 +34,7 @@ module.exports = (connection) => {
         const { id_conta } = req.params;
         const { nome_banco, saldo_conta, investimento_conta, cartao_credito, limite_cartao, fechamento_cartao, vencimento_cartao } = req.body;
     
-        const query = 'UPDATE contas SET nome_banco = ?, saldo_conta = ?, investimento_conta = ?, cartao_credito = ?, limite_cartao = ?, fechamento_cartao = ?, vencimento_cartao = ? WHERE id_contas = ?';
+        const query = 'UPDATE contas SET nome_banco = ?, saldo_conta = ?, investimento_conta = ?, cartao_credito = ?, limite_cartao = ?, fechamento_cartao = ?, vencimento_cartao = ? WHERE id_conta = ?';
         connection.query(query, [nome_banco, saldo_conta, investimento_conta, cartao_credito, limite_cartao, fechamento_cartao, vencimento_cartao, id_conta], (err, results) => {
             if (err) {
                 console.error('Erro ao atualizar conta', err);
@@ -43,6 +43,22 @@ module.exports = (connection) => {
             res.status(200).json({ message: 'Conta atualizada com sucesso', results });
         });
     });    
+
+    router.get('/:id_conta', (req, res) => {
+        const idConta = req.params.id_conta;  // Obtém o id da conta da URL
+    
+        connection.query('SELECT * FROM contas WHERE id_conta = ?', [idConta], (err, results) => {
+          if (err) {
+            return res.status(500).json({ message: 'Erro ao consultar a conta', error: err });
+          }
+    
+          if (results.length === 0) {
+            return res.status(404).json({ message: 'Conta não encontrada' });
+          }
+    
+          res.json(results[0]);  // Retorna a conta específica encontrada
+        });
+      });
 
   return router;
 };

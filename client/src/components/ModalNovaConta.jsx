@@ -181,6 +181,7 @@ const ModalNovaConta = ({onClose, contaEdit}) => {
             }
 
             // Criando objeto novaConta para enviar ao backend
+            
             const novaConta = {
                 nome_banco: nome,  // As variáveis no backend devem corresponder às variáveis enviadas aqui
                 saldo_conta: saldoDaConta,
