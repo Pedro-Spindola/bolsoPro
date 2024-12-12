@@ -11,18 +11,8 @@ function ModalNovaReceita({onClose}) {
   const [getCategoriaSelecionada, setCategoriaSelecionada] = useState('');
   const [getSubcategoriaSelecionada, setSubcategoriaSelecionada] = useState('');
   const [getContaSelecionada, setContaSelecionada] = useState('');
-  const [faturas, setFaturas] = useState([]);
   const [valorBR, setValorBR] = useState([]);
-  const [contaParaAtualizar, setContaParaAtualizar] = useState({
-    id_conta: null,
-    nome_banco: null,
-    saldo_conta: 0,
-    investimento_conta: null,
-    cartao_credito: null,
-    limite_cartao: null,
-    fechamento_cartao: null,
-    vencimento_cartao: null
-});
+
   const [getLancamento, setLancamento] = useState({
     tipo_lancamento: 'Receitas',
     descricao: '',
@@ -65,103 +55,90 @@ function ModalNovaReceita({onClose}) {
     fetchData();
   }, []);  
 
-  useEffect(() => {
-    if (getLancamento.id_conta) {  // Verifica se o id_conta é válido
-        fetch(`http://127.0.0.1:3000/api/faturas/conta/${getLancamento.id_conta}`)  // Usando id_conta para obter faturas
+  function adicionarNovoLancamento(NovoLancamento) {
+    try {
+        fetch("http://127.0.0.1:3000/api/lancamentos", {
+            method: "POST", // Enviando dados para adicionar
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(NovoLancamento) // Envia o objeto como JSON
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Falha ao adicionar o Lancamento.");
+            }
+            return response.json(); // Converte a resposta para JSON
+        })
+        .then(data => {
+            console.log("Lancamento adicionada com sucesso:", data);
+            
+            // Após adicionar o lançamento, atualiza o saldo da conta
+            const contaId = NovoLancamento.id_conta; // A conta usada no lançamento
+            const valorLancamento = NovoLancamento.valor; // O valor do lançamento
+            const tipoLancamento = NovoLancamento.tipo_lancamento; // Tipo de lançamento (Receita ou Despesa)
+            
+            // Calcular o novo saldo baseado no tipo de lançamento
+            // Se for "Receita", soma o valor, se for "Despesa", subtrai o valor
+            const novoSaldo = tipoLancamento === 'Receitas' ? valorLancamento : -valorLancamento;
+
+            // Atualiza o saldo da conta
+            fetch(`http://127.0.0.1:3000/api/contas/${contaId}`, {
+                method: "GET", // Obtém a conta atual para pegar o saldo atual
+            })
             .then(response => {
                 if (!response.ok) {
-                    throw new Error('Erro ao obter faturas');
+                    throw new Error("Falha ao obter os dados da conta.");
                 }
                 return response.json();
             })
-            .then(data => {
-                if (Array.isArray(data)) {
-                    setFaturas(data);  // Atualiza o estado com as faturas
-                } else {
-                    console.error('Formato de dados inválido para faturas');
-                }
+            .then(contaData => {
+                // Calcula o novo saldo
+                const saldoAtual = parseFloat(contaData.saldo_conta);  // Converte para número de ponto flutuante
+                const saldoAtualizado = saldoAtual + parseFloat(novoSaldo);  // Converte novoSaldo para número e soma
+
+                // Agora atualiza a conta com o novo saldo
+                atualizarSaldoDaConta({ ...contaData, saldo_conta: saldoAtualizado }, contaId);
             })
             .catch(error => {
-                console.error('Erro ao obter faturas:', error);
+                console.error("Erro ao obter a conta para atualizar o saldo:", error);
             });
-    }
-  }, [getLancamento.id_conta]);
-
-
-  function adicionarNovoLancamento(NovoLancamento) {
-    try {
-      fetch("http://127.0.0.1:3000/api/lancamentos", {
-          method: "POST", // Enviando dados para adicionar
-          headers: {
-              "Content-Type": "application/json"
-          },
-          body: JSON.stringify(NovoLancamento) // Envia o objeto como JSON
-      })
-      .then(response => {
-          if (!response.ok) {
-              throw new Error("Falha ao adicionar o Lancamento.");
-          }
-          return response.json(); // Converte a resposta para JSON
-      })
-      .then(data => {
-          console.log("Lancamento adicionada com sucesso:", data);
-      })
-      .catch(error => {
-          console.error("Erro ao adicionar a lancamento:", error);
-      });
+        })
+        .catch(error => {
+            console.error("Erro ao adicionar o lancamento:", error);
+        });
     } catch (error) {
-      console.error('Erro ao buscar dados:', error);
+        console.error('Erro ao adicionar novo lançamento:', error);
     }
-  }
-
-  function obterContaParaAlterar(idCont) {
-    // Faz a requisição para pegar os dados da conta pelo id_conta
-    console.log("Está recebendo a conta: " + idCont);
-    fetch(`http://127.0.0.1:3000/api/contas/${idCont}`)
-      .then(response => response.json())
-      .then(data => {
-        // Atualiza o estado com os dados da conta
-        setContaParaAtualizar({
-          id_conta: data.id_conta,
-          nome_banco: data.nome_banco,
-          saldo_conta: data.saldo_conta,
-          investimento_conta: data.investimento_conta,
-          cartao_credito: data.cartao_credito,
-          limite_cartao: data.limite_cartao,
-          fechamento_cartao: data.fechamento_cartao,
-          vencimento_cartao: data.vencimento_cartao
-        });
-      })
-      .catch(error => {
-        console.error('Erro ao obter dados da conta:', error);
-        });
   }
 
   function atualizarSaldoDaConta(conta, idCont) {
-    const id = idCont; // Pegando o id da conta que foi editada
-    fetch(`http://127.0.0.1:3000/api/contas/${id}`, { // Incluindo o ID na URL
+    fetch(`http://127.0.0.1:3000/api/contas/${idCont}`, {
         method: "PUT", // Método para editar
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify(conta) // Envia o objeto da conta editada
+        body: JSON.stringify(conta) // Envia o objeto da conta editada com o novo saldo
     })
     .then(response => {
         if (!response.ok) {
-            throw new Error("Falha ao adicionar a conta.");
+            throw new Error("Falha ao atualizar a conta.");
         }
         return response.json(); // Converte a resposta para JSON
     })
     .then(data => {
-        console.log("Conta adicionada com sucesso:", data);
+        console.log("Conta atualizada com sucesso:", data);
     })
     .catch(error => {
-        console.error("Erro ao adicionar a conta:", error);
+        console.error("Erro ao atualizar a conta:", error);
     });
   }
 
+
+  
   const handleSubmitLancamento = (e) => {  
     e.preventDefault(); // Previne o envio do formulário, se necessário
+    try{
     // Acessando o único lançamento no estado `getLancamento`
     const lancamento = getLancamento;
 
@@ -195,16 +172,14 @@ function ModalNovaReceita({onClose}) {
       alert('O id da categoria não pode ser nulo.');
       return;
     }
-    
-    console.log(faturas);
+    console.log("OK");
     console.log(getLancamento);
-    console.log(contaParaAtualizar);
-    //adicionarNovoLancamento(getLancamento);
-    obterContaParaAlterar(getLancamento.id_conta);
-    let valorAtualizado = contaParaAtualizar.saldo_conta + getLancamento.valor;
-    console.log(valorAtualizado);
-    // Adicionar aqui formulas para alterar os valores presente nas contas.
-    //onClose();
+    adicionarNovoLancamento(getLancamento);
+    onClose();
+    }
+    catch (error) {
+      console.error('Erro ao buscar dados:', error);
+    }
 
   }
 

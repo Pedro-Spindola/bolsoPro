@@ -43,7 +43,7 @@ module.exports = (connection) => {
             res.status(200).json({ message: 'Conta atualizada com sucesso', results });
         });
     });    
-
+    
     router.get('/:id_conta', (req, res) => {
         const idConta = req.params.id_conta;  // Obtém o id da conta da URL
     

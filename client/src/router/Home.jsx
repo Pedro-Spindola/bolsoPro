@@ -1,4 +1,5 @@
 import styles from "./Home.module.css"
+import stylesTr from "../components/TabelaLancamentos.module.css"
 import React, { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { EffectCards } from 'swiper/modules'
@@ -18,6 +19,7 @@ import ModalTransferencia from "../components/ModalTransferenciaConta"
 const Home = () => {
 
   const [contas, setContas] = useState([]);
+  const [lancamentos, setLancamentos] = useState([]);
   const [contaAtivaId, setContaAtivaId] = useState(contas[1]?.id || null);
   const [saldoTotal, setSaldoTotal] = useState(0);
   const [investimentosTotal, setInvestimentosTotal] = useState(0);
@@ -71,11 +73,8 @@ const Home = () => {
   const handleSlideChange = (swiper) => {
     const novaContaAtiva = contas[swiper.activeIndex];
     setContaAtivaId(novaContaAtiva);
+    faturaAbertaAtual(contaAtivaId.dataDeVencimento);
   };
-
-  const handleButtonTeste = (event) =>{
-    console.log(contaAtivaId);
-  }
 
   function atualizarDadosHome(){
     var saldo = 0;
@@ -108,7 +107,91 @@ const Home = () => {
     };
 
     fetchContas();
+
+    const fetchLancamentos = async () => {
+      try {
+          const response = await axios.get('http://127.0.0.1:3000/api/lancamentos');
+          setLancamentos(response.data);
+      } catch (error) {
+          console.error('Erro ao buscar lancamento:', error);
+      }
+    };
+
+    fetchLancamentos();
   }, []);
+
+  // Chama a API para buscar as lancamentos
+  useEffect(() => {
+    const fetchContas = async () => {
+      try {
+          const response = await axios.get('http://127.0.0.1:3000/api/contas');
+          setContas(response.data);
+      } catch (error) {
+          console.error('Erro ao buscar contas:', error);
+      }
+    };
+
+    fetchContas();
+
+    const fetchLancamentos = async () => {
+        try {
+            const response = await axios.get('http://127.0.0.1:3000/api/lancamentos');
+            setLancamentos(response.data);
+        } catch (error) {
+            console.error('Erro ao buscar lancamento:', error);
+        }
+    };
+
+    fetchLancamentos();
+
+    atualizarDadosHome();
+  }, [isModalOpenReceita, isModalOpenDespesas, isModalOpenTransferencia]);
+
+  const percorrerContas = (idConta) => {
+    let nomeConta;
+    contas.forEach(conta => {
+      if(idConta == conta.id_conta){
+        nomeConta = conta.nome_banco;
+      }
+    });
+    return nomeConta;
+  };
+
+  const formatarData = (dataString) => {
+    // Cria um objeto Date a partir da string de data
+    const data = new Date(dataString);
+  
+    // Obtém o dia, mês e ano
+    const dia = String(data.getDate()).padStart(2, '0'); // Adiciona zero à esquerda se necessário
+    const mes = String(data.getMonth() + 1).padStart(2, '0'); // Os meses começam do 0 (Janeiro = 0)
+    const ano = data.getFullYear();
+  
+    // Retorna a data no formato dd-mm-aaaa
+    return `${dia}-${mes}-${ano}`;
+  };
+
+  function faturaAbertaAtual(dataDeVencimento) {
+    const today = new Date();
+    const diaAtual = today.getDate();
+    const mesAtual = today.getMonth() + 1; // Janeiro é 0
+    const anoAtual = today.getFullYear();
+    
+    let mesReferencia = mesAtual;
+    let anoReferencia = anoAtual;
+
+    if (diaAtual > dataDeVencimento) {
+        mesReferencia = mesAtual + 1;
+        if (mesReferencia > 12) {
+            mesReferencia = 1;
+            anoReferencia += 1;
+        }
+    }
+
+    const mesReferenciaString = mesReferencia.toString().padStart(2, '0'); // Formata para duas casas decimais
+    const anoMesReferencia = `${mesReferenciaString}/${anoReferencia}`;
+
+    console.log(anoMesReferencia);
+  }
 
   return (
     <section className={styles.telaHome}>
@@ -134,7 +217,7 @@ const Home = () => {
             <h3>{formatarParaReal(valorSaidaMes)}</h3>
             <div className={styles.boxAtalhos}>
               <h2></h2>
-              <button className={`${styles.btnNewReceita} ${styles.btnAtalhos}`} onClick={handleReceitaClick} >Receitas</button>
+              <button className={`${styles.btnNewReceita} ${styles.btnAtalhos}`} onClick={handleReceitaClick}>Receitas</button>
               <button className={`${styles.btnNewReceita} ${styles.btnAtalhos}`} onClick={handleDespesasClick}>Despesas</button>
               <button className={`${styles.btnNewReceita} ${styles.btnAtalhos}`} onClick={handleTransferenciaClick}>Transf.</button>
                 {isModalOpenReceita && (
@@ -163,24 +246,25 @@ const Home = () => {
               <col style={{ width:'12%'}} />
               <col style={{ width:'38%'}} />
               <col style={{ width:'8%'}} />
-              <col style={{ width:'14%'}} />
-              <col style={{ width:'14%'}} />
-              <col style={{ width:'14%'}} />
+              <col style={{ width:'21%'}} />
+              <col style={{ width:'21%'}} />
             </colgroup>
             <thead>
               <tr className={styles.tr}>
                 <th className={styles.th}>Data</th>
                 <th className={styles.th}>Descrição</th>
                 <th className={styles.th}></th>
-                <th className={styles.th}>Categoria</th>
                 <th className={styles.th}>Conta</th>
                 <th className={styles.th}>Valor</th>
               </tr>
             </thead>
             <tbody>
-              <TabelaLancamentos data="21/10/2024" descricao="Gasolina" icon={carteira} categoria="Transporte" conta="Nubank" valor="R$ 80,00"></TabelaLancamentos>
-              <TabelaLancamentos data="21/10/2024" descricao="Gasolina" icon={carteira} categoria="Transporte" conta="Nubank" valor="R$ 80,00"></TabelaLancamentos>
-              <TabelaLancamentos data="21/10/2024" descricao="Gasolina" icon={carteira} categoria="Transporte" conta="Nubank" valor="R$ 80,00"></TabelaLancamentos>
+              {lancamentos.slice(-10).reverse().map((lancamento) => (
+                <tr key={lancamento.id_lancamentos} className={stylesTr.tr}>
+<                 TabelaLancamentos index={lancamento.id_lancamentos} data={formatarData(lancamento.data_lancamento)} descricao={lancamento.descricao} icon={carteira} conta={percorrerContas(lancamento.id_conta)} valor={lancamento.valor}></TabelaLancamentos>
+                </tr>
+                
+              ))}
             </tbody>
           </table>
         </div>
